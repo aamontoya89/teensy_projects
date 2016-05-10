@@ -1,8 +1,6 @@
 //example from arduino for musicians book
 //teensy midi monitor
 
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -31,7 +29,7 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.print(", note=");
   Serial.print(note, DEC);
   Serial.print(", velocity=");
-  Serial.prin(velocity, DEC);
+  Serial.print(velocity, DEC);
   Serial.println();
 }
 
@@ -41,7 +39,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   Serial.print(", note=");
   Serial.print(note, DEC);
   Serial.print(", velocity=");
-  Serial.prin(velocity, DEC);
+  Serial.print(velocity, DEC);
   Serial.println();
 }
 
@@ -51,7 +49,7 @@ void OnVelocityChange(byte channel, byte note, byte velocity) {
   Serial.print(", note=");
   Serial.print(note, DEC);
   Serial.print(", velocity=");
-  Serial.prin(velocity, DEC);
+  Serial.print(velocity, DEC);
   Serial.println();
 }
 
@@ -61,7 +59,7 @@ void OnControlChange(byte channel, byte control, byte value) {
   Serial.print(", control=");
   Serial.print(control, DEC);
   Serial.print(", value=");
-  Serial.prin(value, DEC);
+  Serial.print(value, DEC);
   Serial.println();
 }
 
@@ -73,23 +71,18 @@ void OnProgramChange(byte channel, byte program) {
   Serial.println();
 }
 
-
 void OnAfterTouch(byte channel, byte pressure) {
   Serial.print("After Touch, ch=");
   Serial.print(channel, DEC);
   Serial.print(", pressure=");
-  Serial.print(program, DEC);
+  Serial.print(pressure, DEC);
   Serial.println();
 }
 
-void OnPitchChange(uint8_t channel, uint16_t pitch) {
+void OnPitchChange(byte channel, int pitch) {
   Serial.print("Pitch Change, ch=");
   Serial.print(channel, DEC);
   Serial.print(", pitch=");
   Serial.print(pitch, DEC);
   Serial.println();
 }
-
-
-
-
