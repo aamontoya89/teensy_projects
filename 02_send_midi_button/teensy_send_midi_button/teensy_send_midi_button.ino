@@ -1,7 +1,8 @@
-//example from arduino for musicians book
-//teensy midi monitor
+//teensy send midi note
+//when a button toggles
 
 void setup() {
+  // put your setup code here, to run once:
   Serial.begin(115200);
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
@@ -10,12 +11,21 @@ void setup() {
   usbMIDI.setHandleProgramChange(OnProgramChange);
   usbMIDI.setHandleAfterTouch(OnAfterTouch);
   usbMIDI.setHandlePitchChange(OnPitchChange);
-
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
+
   //receive USB midi
-  usbMIDI.read();
+  //usbMIDI.read();
+
+  pinMode(A0, INPUT);
+
+
+  //usbMIDI.sendNoteOn(note, velocity, channel);
+  int note = int(random(127));
+  usbMIDI.sendNoteOn(note, 127, 1);
+  delay(1000);
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity) {

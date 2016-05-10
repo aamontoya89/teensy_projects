@@ -1,5 +1,4 @@
-//example from arduino for musicians book
-//teensy midi monitor
+//teensy send midi
 
 void setup() {
   // put your setup code here, to run once:
@@ -17,10 +16,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-
   //receive USB midi
-  usbMIDI.read();
+  //usbMIDI.read();
 
+  //usbMIDI.sendNoteOn(note, velocity, channel);
+  int note = int(random(127));
+  usbMIDI.sendNoteOn(note, 127, 1);
+  delay(1000);
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity) {
