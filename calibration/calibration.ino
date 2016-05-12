@@ -18,8 +18,10 @@
  
  Your calibration factor may be very positive or very negative. It all depends on the setup of your scale system
  and the direction the sensors deflect from zero state
+
  This example code uses bogde's excellent library: https://github.com/bogde/HX711
  bogde's library is released under a GNU GENERAL PUBLIC LICENSE
+
  Arduino pin 2 -> HX711 CLK
  3 -> DOUT
  5V -> VCC
@@ -49,7 +51,7 @@ void setup() {
   Serial.println("Press - or z to decrease calibration factor");
 
   scale.set_scale();
-  scale.tare();  //Reset the scale to 0
+  //scale.tare();  //Reset the scale to 0
 
   long zero_factor = scale.read_average(); //Get a baseline reading
   Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
