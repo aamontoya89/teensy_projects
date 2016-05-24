@@ -1,43 +1,64 @@
 //teensy send midi note
 //when a button toggles
 
+/*
+  Example using the SparkFun HX711 breakout board with a scale
+  By: Nathan Seidle
+  SparkFun Electronics
+  Date: November 19th, 2014
+  License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
+
+  This example demonstrates basic scale output. See the calibration sketch to get the calibration_factor for your
+  specific load cell setup.
+
+  This example code uses bogde's excellent library: https://github.com/bogde/HX711
+  bogde's library is released under a GNU GENERAL PUBLIC LICENSE
+
+  The HX711 does one thing well: read load cells. The breakout board is compatible with any wheat-stone bridge
+  based load cell which should allow a user to measure everything from a few grams to tens of tons.
+  Arduino pin 2 -> HX711 CLK
+  3 -> DAT
+  5V -> VCC
+  GND -> GND
+
+  The HX711 board can be powered from 2.7V to 5V so the Arduino 5V power should be fine.
+*/
 
 //library from https://github.com/aguegu/ardulibs/tree/master/hx711
 #include "HX711.h"
 
+#define calibration_factor -7050.0 //This value is obtained using the SparkFun_HX711_Calibration sketch
+
+#define DOUT  3
+#define CLK  2
+
+HX711 scale(DOUT, CLK);
+
 boolean buttonPressed = false;
 int midiChannel = 1;
-int pinReading = 2;
 int note;
 
+float reading;
+float decisionValue = 100;
+
 void setup() {
- 
+
   Serial.begin(115200);
-  usbMIDI.setHandleNoteOff(OnNoteOff);
-  usbMIDI.setHandleNoteOn(OnNoteOn);
-  usbMIDI.setHandleVelocityChange(OnVelocityChange);
-  usbMIDI.setHandleControlChange(OnControlChange);
-  usbMIDI.setHandleProgramChange(OnProgramChange);
-  usbMIDI.setHandleAfterTouch(OnAfterTouch);
-  usbMIDI.setHandlePitchChange(OnPitchChange);
 
   pinMode(pinReading, INPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4,OUTPUT);
 
-  Hx711 scale(A1, A0);
+  scale.set_scale(calibration_factor); //This value is obtained by using the SparkFun_HX711_Calibration sketch
+  scale.tare();  //Assuming there is no weight on the scale at start up, reset the scale to 0
+
 
 }
 
 
 void loop() {
 
-  //receive USB midi
-  //usbMIDI.read();
+  digitalWrite(3, HIGH);
+  digitalWrite(4, LOW);
 
-  digitalWrite(3,HIGH);
-  digitalWrite(4,LOW);
-  
   readPin();
 
   //usbMIDI.sendNoteOn(note, velocity, channel);
@@ -48,77 +69,12 @@ void loop() {
 
 void readPin() {
 
-  if (digitalRead(pinReading) ) {
+  reading = scale.get_units();
+
+  if (reading > decisionValue ) {
     note = 100;
-    Serial.println("HIGH");
   }
   else {
     note = 70;
-    Serial.println("LOW");
   }
-}
-
-
-void OnNoteOn(byte channel, byte note, byte velocity) {
-  Serial.print("Note On, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", note=");
-  Serial.print(note, DEC);
-  Serial.print(", velocity=");
-  Serial.print(velocity, DEC);
-  Serial.println();
-}
-
-void OnNoteOff(byte channel, byte note, byte velocity) {
-  Serial.print("Note Off, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", note=");
-  Serial.print(note, DEC);
-  Serial.print(", velocity=");
-  Serial.print(velocity, DEC);
-  Serial.println();
-}
-
-void OnVelocityChange(byte channel, byte note, byte velocity) {
-  Serial.print("Velocity Change, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", note=");
-  Serial.print(note, DEC);
-  Serial.print(", velocity=");
-  Serial.print(velocity, DEC);
-  Serial.println();
-}
-
-void OnControlChange(byte channel, byte control, byte value) {
-  Serial.print("Control Change, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", control=");
-  Serial.print(control, DEC);
-  Serial.print(", value=");
-  Serial.print(value, DEC);
-  Serial.println();
-}
-
-void OnProgramChange(byte channel, byte program) {
-  Serial.print("Program Change, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", program=");
-  Serial.print(program, DEC);
-  Serial.println();
-}
-
-void OnAfterTouch(byte channel, byte pressure) {
-  Serial.print("After Touch, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", pressure=");
-  Serial.print(pressure, DEC);
-  Serial.println();
-}
-
-void OnPitchChange(byte channel, int pitch) {
-  Serial.print("Pitch Change, ch=");
-  Serial.print(channel, DEC);
-  Serial.print(", pitch=");
-  Serial.print(pitch, DEC);
-  Serial.println();
 }
