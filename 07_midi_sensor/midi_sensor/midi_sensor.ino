@@ -42,6 +42,7 @@ void setup() {
 
 void loop() {
   sendValue = random(128);
+  sendValue = int(map(scale.get_units(),0,300,0,128));
   usbMIDI.sendControlChange(sendControl, sendValue, sendChannel);
   delay(500);
   //Serial.print("Reading: ");

@@ -94,7 +94,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 141.5, 244.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "9"
+					"text" : "1"
 				}
 
 			}
@@ -107,7 +107,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 131.0, 272.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "120"
+					"text" : "0"
 				}
 
 			}
@@ -127,7 +127,7 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-6",
-					"items" : [ "to Max 1", ",", "to Max 2", ",", "Teensy MIDI" ],
+					"items" : [ "Teensy MIDI", ",", "Teensy MIDI #2", ",", "Teensy MIDI #3", ",", "Teensy MIDI #4", ",", "to Max 1", ",", "to Max 2", ",", "Teensy_2 Teensy MIDI" ],
 					"maxclass" : "umenu",
 					"numinlets" : 1,
 					"numoutlets" : 3,
