@@ -1,7 +1,7 @@
 //multiple teensys
 
 //midi control number
-int sendControl = 2;
+int sendControl = 14;
 
 //midi channel
 int sendChannel = 1;

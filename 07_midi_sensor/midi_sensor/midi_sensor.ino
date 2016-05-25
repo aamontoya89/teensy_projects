@@ -27,7 +27,7 @@
 #define DOUT  3
 #define CLK  2
 
-int sendControl = 1;
+int sendControl = 2;
 int sendChannel = 1;
 int sendValue = 120;
 
@@ -44,7 +44,7 @@ void loop() {
   sendValue = random(128);
   sendValue = int(map(scale.get_units(),0,300,0,128));
   usbMIDI.sendControlChange(sendControl, sendValue, sendChannel);
-  delay(500);
+  delay(20);
   //Serial.print("Reading: ");
   //Serial.print(scale.get_units(), 1); //scale.get_units() returns a float
   //Serial.print(" lbs"); //You can change this to kg but you'll need to refactor the calibration_factor
